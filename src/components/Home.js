@@ -21,7 +21,7 @@ function Home() {
             This is a online connect 4 website.
           </div>
         </Fragment>
-      )}
+      ) }
     </Paper>
   );
 }
