@@ -3,7 +3,7 @@ import { Container } from '@material-ui/core';
 import { Switch, Route } from 'react-router-dom';
 
 import { loadingUser, unauthorizedUser, UserContext } from './userContext';
-import { getToken, requestCheckLogin } from './api';
+import { requestCheckLogin } from './api';
 import { TopBar } from './components/TopBar';
 import { Home } from './components/Home';
 import { SignUp } from './components/SignUp';
