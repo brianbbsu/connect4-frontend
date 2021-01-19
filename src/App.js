@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Container } from '@material-ui/core';
 import { Switch, Route } from 'react-router-dom';
 
-import { loadingUser, unauthorizedUser, UserContext } from './userContext';
+import { loadingUser, unauthorizedUser, UserContext } from './contexts';
 import { requestCheckLogin } from './api';
 import { TopBar } from './components/TopBar';
 import { Home } from './components/Home';
@@ -11,7 +11,8 @@ import { Users } from './components/Users';
 import { SignUp } from './components/SignUp';
 import { SignIn } from './components/SignIn';
 import { UserProfile } from './components/UserProfile';
-import { ROUTE_HOME, ROUTE_GAMES, ROUTE_USERS, ROUTE_SIGN_IN, ROUTE_SIGN_UP, ROUTE_USER_PROFILE } from './constants';
+import { GamePage } from './components/GamePage';
+import { ROUTE_HOME, ROUTE_GAMES, ROUTE_USERS, ROUTE_SIGN_IN, ROUTE_SIGN_UP, ROUTE_USER_PROFILE, ROUTE_GAME_PAGE } from './constants';
 
 function App() {
   const [nowUser, setNowUser] = useState(loadingUser);
@@ -36,25 +37,28 @@ function App() {
   return (
     <UserContext.Provider value={nowUser}>
       <TopBar authorizeAndSetUser={authorizeAndSetUser} />
-      <Container maxWidth="lg">
+      <Container maxWidth="xl">
         <Switch>
           <Route exact path={ROUTE_HOME}>
             <Home />
           </Route>
           <Route exact path={ROUTE_GAMES}>
-            <Games authorizeAndSetUser={authorizeAndSetUser} />
+            <Games />
           </Route>
           <Route exact path={ROUTE_USERS}>
             <Users />
           </Route>
           <Route exact path={ROUTE_SIGN_IN}>
-           <SignIn authorizeAndSetUser={authorizeAndSetUser} />
+            <SignIn authorizeAndSetUser={authorizeAndSetUser} />
           </Route>
           <Route exact path={ROUTE_SIGN_UP}>
-           <SignUp authorizeAndSetUser={authorizeAndSetUser} />
+            <SignUp authorizeAndSetUser={authorizeAndSetUser} />
           </Route>
           <Route path={ROUTE_USER_PROFILE}>
-           <UserProfile />
+            <UserProfile />
+          </Route>
+          <Route path={ROUTE_GAME_PAGE}>
+            <GamePage authorizeAndSetUser={authorizeAndSetUser} />
           </Route>
         </Switch>
       </Container>

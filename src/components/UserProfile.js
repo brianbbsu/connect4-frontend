@@ -1,9 +1,8 @@
-import { Fragment, useState, useEffect, useContext } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Paper, Typography } from '@material-ui/core';
 
 import { UserProfileLink } from './UserProfileLink.js';
-import { UserContext } from '../userContext';
 import { requestUserInfo } from '../api';
 
 const NOT_FOUND = 'not found';

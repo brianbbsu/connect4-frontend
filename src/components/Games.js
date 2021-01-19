@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Box, Paper, Tabs, Tab, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 
 import { UserProfileLink } from './UserProfileLink.js';
-import { UserContext } from '../userContext';
+import { UserContext } from '../contexts';
 import { requestGameList } from '../api';
 
 const ALL_GAMES = 'all';

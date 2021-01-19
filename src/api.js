@@ -7,6 +7,7 @@ const instance = axios.create({
   }
 });
 
+
 function getToken() {
   return localStorage.getItem('token');
 }

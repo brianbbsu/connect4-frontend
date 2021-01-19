@@ -1,7 +1,7 @@
 import { Fragment, useContext } from 'react';
 import { Box, Paper, Typography } from '@material-ui/core';
 
-import { UserContext } from '../userContext';
+import { UserContext } from '../contexts';
 
 function Home() {
   const user = useContext(UserContext);

@@ -2,7 +2,7 @@ import { Fragment, useContext } from 'react';
 import { Link, useHistory } from "react-router-dom";
 import { Box, AppBar, Toolbar, Button } from '@material-ui/core';
 
-import { UserContext } from '../userContext';
+import { UserContext } from '../contexts';
 import { ROUTE_HOME, ROUTE_GAMES, ROUTE_USERS, ROUTE_SIGN_IN, ROUTE_SIGN_UP, make_user_profile_route } from '../constants';
 import { deleteToken, requestSignOut } from '../api';
 
