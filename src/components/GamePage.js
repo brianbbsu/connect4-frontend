@@ -184,7 +184,7 @@ function GamePage({ authorizeAndSetUser }) {
           <Grid item xs={6}>
             <Board moves={moves} sendMove={sendMove} valid={gameSocket.validGame} />
           </Grid>
-          <Grid item xs>
+          <Grid item xs style={{minWidth: '0%'}}>
             <ChatRoom messages={messages} sendMessage={sendMessage} valid={chatSocket.validChat} />
           </Grid>
         </Grid>

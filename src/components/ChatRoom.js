@@ -36,18 +36,19 @@ function ChatRoom({ messages, sendMessage, valid }) {
   }
 
   return (
-    <Box p={2} component={Paper} height={1} display="flex" flexDirection="column">
+    <Box p={2} component={Paper} height={1} maxHeight={1} display="flex" flexDirection="column">
       <Box flexGrow={0}>
         <Typography variant="h3">
           Chat Room
         </Typography>
       </Box>
-      <Box flexGrow={1} component={Paper} variant="outlined">
+      <Box flexGrow={1} flexBasis={0} minHeight={0} component={Paper} variant="outlined" overflow="auto">
         <List>
           { messages.map((message, idx) => (
             <ListItem key={idx}>
-              <UserProfileLink username={message.from} />{': '}
-              <Typography>{message.content}</Typography>
+              <Typography>
+                <UserProfileLink username={message.from} />: {message.content}
+              </Typography>
             </ListItem>
           )) }
         </List>

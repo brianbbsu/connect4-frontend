@@ -14,6 +14,9 @@ import { UserProfile } from './components/UserProfile';
 import { GamePage } from './components/GamePage';
 import { ROUTE_HOME, ROUTE_GAMES, ROUTE_USERS, ROUTE_SIGN_IN, ROUTE_SIGN_UP, ROUTE_USER_PROFILE, ROUTE_GAME_PAGE } from './constants';
 
+// TODO: Cleaner signout process
+// TODO: Better Socket.io handling (fix reconnection in the process)
+
 function App() {
   const [nowUser, setNowUser] = useState(loadingUser);
 

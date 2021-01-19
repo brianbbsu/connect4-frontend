@@ -40,6 +40,7 @@ function Users() {
                     //console.log(userItem);
                     history.push(make_user_profile_route(userItem.username))
                   }}
+                  hover
                 >
                   <TableCell><UserProfileLink username={userItem.username} /></TableCell>
                 </TableRow>
