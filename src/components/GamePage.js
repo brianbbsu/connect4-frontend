@@ -34,7 +34,7 @@ function GamePage({ authorizeAndSetUser }) {
         token: getToken(),
       }
     });
-    socket.once('connect', () => {
+    socket.on('connect', () => {
       console.log('chat connected');
       socket.emit('join', chatID, pastMessages => {
         console.log('got past messages', pastMessages);
@@ -52,20 +52,6 @@ function GamePage({ authorizeAndSetUser }) {
         });
       });
     });
-    socket.on('reconnect', () => {
-      console.log('chat reconnected');
-      socket.emit('join', chatID, pastMessages => {
-        console.log('got past messages', pastMessages);
-        if (pastMessages === null) {
-          setChatSocket({
-            validChat: false,
-            socket: null
-          });
-          return;
-        }
-        setMessages(pastMessages);
-      });
-    });
     return () => {
       setChatSocket({
         validChat: null,
@@ -81,7 +67,7 @@ function GamePage({ authorizeAndSetUser }) {
         token: getToken(),
       }
     });
-    socket.once('connect', () => {
+    socket.on('connect', () => {
       console.log('game connected');
       socket.emit('join', gameID, gameObj => {
         console.log('got game object', gameObj);
@@ -102,26 +88,6 @@ function GamePage({ authorizeAndSetUser }) {
         setGameSocket({
           validGame: true,
           socket: socket
-        });
-      });
-    });
-    socket.on('reconnect', () => {
-      console.log('game reconnected');
-      socket.emit('join', gameID, gameObj => {
-        console.log('got game object', gameObj);
-        if (gameObj === null) {
-          setGameSocket({
-            validGame: false,
-            socket: null
-          });
-          return;
-        }
-        const pastMoves = gameObj.moves;
-        setMoves(pastMoves);
-        setGameInfo({
-          status: gameObj.status,
-          player1: gameObj.player1,
-          player2: gameObj.player2
         });
       });
     });
