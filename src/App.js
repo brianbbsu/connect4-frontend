@@ -10,7 +10,8 @@ import { Games } from './components/Games';
 import { Users } from './components/Users';
 import { SignUp } from './components/SignUp';
 import { SignIn } from './components/SignIn';
-import { ROUTE_HOME, ROUTE_GAMES, ROUTE_USERS, ROUTE_SIGN_IN, ROUTE_SIGN_UP } from './constants';
+import { UserProfile } from './components/UserProfile';
+import { ROUTE_HOME, ROUTE_GAMES, ROUTE_USERS, ROUTE_SIGN_IN, ROUTE_SIGN_UP, ROUTE_USER_PROFILE } from './constants';
 
 function App() {
   const [nowUser, setNowUser] = useState(loadingUser);
@@ -18,20 +19,17 @@ function App() {
   const authorizeAndSetUser = async token => {
     const username = await requestCheckLogin();
     if (username !== null) {
-      console.log('yes');
       setNowUser({
         authorized: true,
         username
       });
     }
     else {
-      console.log('no');
       setNowUser(unauthorizedUser);
     }
   };
 
   useEffect(() => {
-    console.log('loading authorize')
     authorizeAndSetUser();
   }, []);
 
@@ -54,6 +52,9 @@ function App() {
           </Route>
           <Route exact path={ROUTE_SIGN_UP}>
            <SignUp authorizeAndSetUser={authorizeAndSetUser} />
+          </Route>
+          <Route path={ROUTE_USER_PROFILE}>
+           <UserProfile />
           </Route>
         </Switch>
       </Container>

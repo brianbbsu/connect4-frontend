@@ -10,7 +10,7 @@ function Home() {
       { user.authorized !== null && ( 
         user.authorized ? (
           <Fragment>
-            <Typography variant="h1">Welcome, {user.username}</Typography>
+            <Typography variant="h1">Welcome, {user.username}.</Typography>
             <Typography>
               This is a online connect 4 website.
             </Typography>

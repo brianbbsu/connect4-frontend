@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { Box, AppBar, Toolbar, Button } from '@material-ui/core';
 
 import { UserContext } from '../userContext';
-import { ROUTE_HOME, ROUTE_GAMES, ROUTE_USERS, ROUTE_SIGN_IN, ROUTE_SIGN_UP } from '../constants';
+import { ROUTE_HOME, ROUTE_GAMES, ROUTE_USERS, ROUTE_SIGN_IN, ROUTE_SIGN_UP, make_user_profile_route } from '../constants';
 import { deleteToken, requestSignOut } from '../api';
 
 function TopBar({ authorizeAndSetUser }) {
@@ -36,7 +36,15 @@ function TopBar({ authorizeAndSetUser }) {
             </Box>
             { user.authorized ? (
               <Fragment>
-                <Button color="default" variant="contained" style={{textTransform: 'none'}}>{ user.username }</Button>
+                <Button 
+                  color="default" 
+                  variant="contained" 
+                  style={{textTransform: 'none'}}
+                  component={Link}
+                  to={make_user_profile_route(user.username)}
+                >
+                  { user.username }
+                </Button>
                 <Button color="inherit" onClick={signOut}>Sign out</Button>
               </Fragment>
             ) : (
