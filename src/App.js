@@ -6,9 +6,11 @@ import { loadingUser, unauthorizedUser, UserContext } from './userContext';
 import { requestCheckLogin } from './api';
 import { TopBar } from './components/TopBar';
 import { Home } from './components/Home';
+import { Games } from './components/Games';
+import { Users } from './components/Users';
 import { SignUp } from './components/SignUp';
 import { SignIn } from './components/SignIn';
-import { ROUTE_HOME, ROUTE_SIGN_IN, ROUTE_SIGN_UP } from './constants';
+import { ROUTE_HOME, ROUTE_GAMES, ROUTE_USERS, ROUTE_SIGN_IN, ROUTE_SIGN_UP } from './constants';
 
 function App() {
   const [nowUser, setNowUser] = useState(loadingUser);
@@ -40,6 +42,12 @@ function App() {
         <Switch>
           <Route exact path={ROUTE_HOME}>
             <Home />
+          </Route>
+          <Route exact path={ROUTE_GAMES}>
+            <Games authorizeAndSetUser={authorizeAndSetUser} />
+          </Route>
+          <Route exact path={ROUTE_USERS}>
+            <Users />
           </Route>
           <Route exact path={ROUTE_SIGN_IN}>
            <SignIn authorizeAndSetUser={authorizeAndSetUser} />

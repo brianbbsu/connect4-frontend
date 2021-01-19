@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Paper, TextField, Button } from '@material-ui/core';
+import { Box, Paper, Typography, TextField, Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 
 import { ROUTE_HOME } from '../constants';
@@ -61,8 +61,8 @@ function SignIn({ authorizeAndSetUser }) {
   };
 
   return (
-    <Paper>
-      <h1>Sign In</h1>
+    <Box p={2} m={2} component={Paper}>
+      <Typography variant="h1">Sign In</Typography>
       <div>
         <TextField 
           id="username" 
@@ -87,10 +87,10 @@ function SignIn({ authorizeAndSetUser }) {
       <div>
         <Button variant="contained" color="primary" onClick={check}>Sign In</Button>
       </div>
-      <div>
+      <Typography>
         {backendErrorMessage}
-      </div>
-    </Paper>
+      </Typography>
+    </Box>
   );
 }
 
