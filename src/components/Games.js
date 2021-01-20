@@ -1,22 +1,39 @@
 import { useState, useEffect, useContext } from 'react';
 import { Box, Paper, Tabs, Tab, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 
 import { UserProfileLink } from './UserProfileLink.js';
 import { UserContext } from '../contexts';
 import { requestGameList } from '../api';
-import { make_game_page_route } from '../constants';
+import { make_game_page_route, GAME_STATUS_ONGOING, GAME_STATUS_PLAYER1_WINS, GAME_STATUS_PLAYER2_WINS, GAME_STATUS_TIE } from '../constants';
 
 const ALL_GAMES = 'all';
 const MY_GAMES = 'my';
 
-export const GameTable = function ({games}) {
+function formatStatus(status) {
+  if (status === GAME_STATUS_ONGOING) {
+    return 'On Going';
+  }
+  if (status === GAME_STATUS_PLAYER1_WINS) {
+    return 'Player 1 won';
+  }
+  if (status === GAME_STATUS_PLAYER2_WINS) {
+    return 'Player 1 won';
+  }
+  if (status === GAME_STATUS_TIE) {
+    return 'Tie';
+  }
+}
+
+function GameTable({ games }) {
   const history = useHistory();
   const makeHandleClick = id => {
     return () => {
       history.push(make_game_page_route(id));
     };
   };
+
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -41,8 +58,8 @@ export const GameTable = function ({games}) {
                   <TableCell align="right">{game.id}</TableCell>
                   <TableCell><UserProfileLink username={game.player1} /></TableCell>
                   <TableCell><UserProfileLink username={game.player2} /></TableCell>
-                  <TableCell>{game.status}</TableCell>
-                  <TableCell>{game.createdAt}</TableCell>
+                  <TableCell>{formatStatus(game.status)}</TableCell>
+                  <TableCell>{moment(game.createdAt).fromNow()}</TableCell>
                 </TableRow>
               )
             )
@@ -89,4 +106,4 @@ function Games() {
   );
 }
 
-export { Games }
+export { Games, GameTable }
