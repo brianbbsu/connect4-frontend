@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Typography, TextField, Button, Grid, Container } from '@material-ui/core';
+import { Paper, Typography, TextField, Button, Grid, Container, CircularProgress } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 
 import { ROUTE_HOME } from '../constants';
@@ -28,6 +28,7 @@ function SignUp({ authorizeAndSetUser }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [formPending, setFormPending] = useState(false);
 
   const [errorMessages, setErrorMessages] = useState({
     username: null,
@@ -39,6 +40,7 @@ function SignUp({ authorizeAndSetUser }) {
 
   const check = async (event: Event) => {
     event.preventDefault();
+    if (formPending) return; // Prevent double send
     let anyError = false;
     const newErrorMessage = {
       username: null,
@@ -69,7 +71,9 @@ function SignUp({ authorizeAndSetUser }) {
       setErrorMessages(newErrorMessage);
       return;
     }
+    setFormPending(true);
     const { token, message } = await requestSignUp({ password, username });
+    setFormPending(false);
     if (token !== null) {
       setToken(token);
       history.push(ROUTE_HOME);
@@ -150,8 +154,9 @@ function SignUp({ authorizeAndSetUser }) {
                 color="primary"
                 fullWidth
                 className={classes.submit}
+                disabled={formPending}
               >
-                Sign up
+                { formPending ? (<CircularProgress variant="indeterminate" size={24.5}/>) : "Sign up" } 
               </Button>
             </Grid>
           </Grid>
