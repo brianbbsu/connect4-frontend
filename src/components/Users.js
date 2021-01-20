@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, Paper, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
+import { Box, Paper, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Container } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 
 import { UserProfileLink } from './UserProfileLink.js';
@@ -53,9 +53,11 @@ function Users() {
   );
 
   return (
-    <Box p={2} m={2} component={Paper}>
-      {userTable}
-    </Box>
+    <Container maxWidth="md">
+      <Box p={2} m={2} component={Paper}>
+        {userTable}
+      </Box>
+    </Container>
   );
 }
 

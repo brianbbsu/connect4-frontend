@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { Box, Paper, Tabs, Tab, TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
+import { Box, Paper, Tabs, Tab, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Container } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
@@ -94,15 +94,17 @@ function Games() {
   const viewGames = viewMode === ALL_GAMES ? games : games.filter(game => game.player1 === user.username || game.player2 === user.username);
 
   return (
-    <Box m={2} component={Paper}>
-      <Tabs value={viewMode} onChange={handleChange}>
-        <Tab label="All Games" value={ALL_GAMES} /> 
-        <Tab label="My Games" value={MY_GAMES} disabled={user.authorized !== true} /> 
-      </Tabs>
-      <Box p={2}>
-        <GameTable games={viewGames}/>
+    <Container maxWidth="md">
+      <Box m={2} component={Paper}>
+        <Tabs value={viewMode} onChange={handleChange}>
+          <Tab label="All Games" value={ALL_GAMES} /> 
+          <Tab label="My Games" value={MY_GAMES} disabled={user.authorized !== true} /> 
+        </Tabs>
+        <Box p={2}>
+          <GameTable games={viewGames}/>
+        </Box>
       </Box>
-    </Box>
+    </Container>
   );
 }
 
