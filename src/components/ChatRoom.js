@@ -1,8 +1,8 @@
 import { useState, useContext } from 'react';
-import { Box, Paper, Typography, TextField, Button, List, ListItem, Grid } from '@material-ui/core';
+import { Box, Paper, Typography, TextField, Button, List, ListItem } from '@material-ui/core';
 
 import { UserProfileLink } from './UserProfileLink';
-import { UserContext, GameContext } from '../contexts';
+import { UserContext } from '../contexts';
 
 function ChatRoom({ messages, sendMessage, valid }) {
   const user = useContext(UserContext);
