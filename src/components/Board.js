@@ -143,7 +143,9 @@ function Board({ moves, sendMove, valid }) {
                             zIndex: '1',
                             top: '0px',
                             left: '0px',
-                            width: '100%'
+                            width: '100%',
+                            userSelect: 'none',
+                            pointerEvents: 'none'
                           }}
                         />
                         { e !== 0 && (
@@ -156,7 +158,9 @@ function Board({ moves, sendMove, valid }) {
                               height: '100%',
                               top: '0px',
                               left: '0px',
-                              opacity: e < 0 ? 0.5 : 1
+                              opacity: e < 0 ? 0.5 : 1,
+                              userSelect: 'none',
+                              pointerEvents: 'none'
                             }}
                           />
                         ) }
