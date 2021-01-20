@@ -1,43 +1,59 @@
 import { useState } from 'react';
-import { Box, Paper, Typography, TextField, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { Paper, Typography, TextField, Button, Grid, Container } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 
 import { ROUTE_HOME } from '../constants';
 import { setToken, requestSignIn } from '../api';
 
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(3),
+    padding: theme.spacing(2),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  form: {
+    marginTop: theme.spacing(2),
+  },
+  submit: {
+    marginTop: theme.spacing(1),
+  }
+}));
+
 function SignIn({ authorizeAndSetUser }) {
+  const classes = useStyles();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const [errorMessages, setErrorMessages] = useState({
     username: null,
     password: null,
-    confirmPassword: null
   });
-
-  const [backendErrorMessage, setBackendErrorMessage] = useState(null);
 
   const history = useHistory();
 
-  const check = async () => {
-    let flag = true;
-    let newErrorMessage = {
+  const check = async (event: Event) => {
+    event.preventDefault();
+    let anyError = false;
+    const newErrorMessage = {
       username: null,
       password: null
     };
     if (username === '') {
-      newErrorMessage = {...newErrorMessage, username: 'Username must not be empty.'};
-      flag = false;
+      newErrorMessage.username = 'Username must not be empty.';
+      anyError = true;
     }
     if (password === '') {
-      newErrorMessage = {...newErrorMessage, password: 'Passwords must not be empty.'};
-      flag = false;
+      newErrorMessage.password = 'Password must not be empty.';
+      anyError = true;
     }
-    if (!flag) {
+    if (anyError) {
       setErrorMessages(newErrorMessage);
-      return;
+      return; // Validation failed. Do not submit
     }
-    console.log('ok');
     const { token, message } = await requestSignIn({ password, username });
     if (token !== null) {
       setToken(token);
@@ -45,7 +61,11 @@ function SignIn({ authorizeAndSetUser }) {
       authorizeAndSetUser();
     }
     else {
-      setBackendErrorMessage(message);
+      setErrorMessages({
+        username: message,
+        password: message,
+      })
+      setPassword(''); // Clear password field
     }
   };
 
@@ -55,42 +75,62 @@ function SignIn({ authorizeAndSetUser }) {
         username: null,
         password: null
       });
-      setBackendErrorMessage(null);
       setter(e.target.value);
     };
   };
 
   return (
-    <Box p={2} m={2} component={Paper}>
-      <Typography variant="h1">Sign In</Typography>
-      <div>
-        <TextField 
-          id="username" 
-          label="Username" 
-          error={errorMessages.username !== null} 
-          helperText={errorMessages.username} 
-          value={username} 
-          onChange={handlerFactory(setUsername)} 
-        />
-      </div>
-      <div>
-        <TextField 
-          id="password" 
-          label="Password"
-          type="password" 
-          error={errorMessages.password !== null} 
-          helperText={errorMessages.password} 
-          value={password} 
-          onChange={handlerFactory(setPassword)} 
-        />
-      </div>
-      <div>
-        <Button variant="contained" color="primary" onClick={check}>Sign In</Button>
-      </div>
-      <Typography>
-        {backendErrorMessage}
-      </Typography>
-    </Box>
+    <Container maxWidth="xs">
+      <Paper className={classes.paper}>
+        <Typography component="h1" variant="h3">
+          Sign in
+        </Typography>
+        <form className={classes.form} onSubmit={check} noValidate>
+          <TextField
+            id="username"
+            label="Username"
+            name="username"
+            error={errorMessages.username}
+            helperText={errorMessages.username || ' '}
+            value={username}
+            onChange={handlerFactory(setUsername)}
+            margin="dense"
+            autoComplete="off"
+            fullWidth
+            autoFocus
+          />
+          <TextField
+            id="password"
+            label="Password"
+            type="password"
+            name="password"
+            error={errorMessages.password}
+            helperText={errorMessages.password || ' '}
+            value={password}
+            onChange={handlerFactory(setPassword)}
+            margin="dense"
+            autoComplete="off"
+            fullWidth
+          />
+          <Grid container direction="row" alignItems="center">
+            <Grid item xs={9}>
+              { /* Sign up now */ }
+            </Grid>
+            <Grid item xs={3}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                className={classes.submit}
+              >
+                Sign in
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+      </Paper>
+    </Container>
   );
 }
 
