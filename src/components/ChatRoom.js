@@ -65,17 +65,15 @@ function ChatRoom({ messages, sendMessage, valid }) {
               handleSend();
           }}
         />
-        <Grid container direction="row" alignItems="center" justify="flex-end">
-          <Grid item xs={3}>
-            <Button 
-              variant="contained" 
-              disabled={!authorized}
-              onClick={handleSend}
-            >
-              Send
-            </Button>
-          </Grid>
-        </Grid>
+        <Box mt={1}>
+          <Button 
+            variant="contained" 
+            disabled={!authorized}
+            onClick={handleSend}
+          >
+            Send
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

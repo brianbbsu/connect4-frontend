@@ -40,7 +40,8 @@ function TopBar({ authorizeAndSetUser }) {
               <Fragment>
                 <ButtonGroup variant="text" color="inherit">
                 <Button 
-                  color="inherit" 
+                  color="inherit"
+                  style={{textTransform: 'none'}} 
                   component={Link}
                   to={make_user_profile_route(user.username)}
                 >
