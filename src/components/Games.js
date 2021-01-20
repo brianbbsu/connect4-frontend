@@ -19,7 +19,7 @@ function formatStatus(status) {
     return 'Player 1 won';
   }
   if (status === GAME_STATUS_PLAYER2_WINS) {
-    return 'Player 1 won';
+    return 'Player 2 won';
   }
   if (status === GAME_STATUS_TIE) {
     return 'Tie';
