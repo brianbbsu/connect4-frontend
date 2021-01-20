@@ -27,6 +27,8 @@ function GamePage({ authorizeAndSetUser }) {
   const [moves, setMoves] = useState([]);
   const [gameInfo, setGameInfo] = useState(unknownGameInfo);
 
+  const history = useHistory();
+
   useEffect(() => {
     console.log('creating chat socket');
     const socket = io(SOCKET_CHAT, {
@@ -52,13 +54,34 @@ function GamePage({ authorizeAndSetUser }) {
         });
       });
     });
+
+    const disconnectHandler = reason => {
+      console.log('disconncted');
+      if (reason === 'io server disconnect') {
+        console.log('server disconnected');
+        deleteToken();
+        history.push(ROUTE_HOME);
+        authorizeAndSetUser();
+      }
+    };
+
+    const newMessageHandler = newMessage => {
+      setMessages(oldMessages => [...oldMessages, newMessage]);
+    };
+
+    socket.on('disconnect', disconnectHandler);
+    socket.on('newmsg', newMessageHandler);
+
     return () => {
+      console.log('leaving chat');
+      socket.emit('leave');
+      socket.close();
       setChatSocket({
         validChat: null,
         socket: null
       });
     };
-  }, [chatID]);
+  }, [chatID, authorizeAndSetUser, history]);
 
   useEffect(() => {
     console.log('creating game socket');
@@ -91,79 +114,38 @@ function GamePage({ authorizeAndSetUser }) {
         });
       });
     });
+    
+    const disconnectHandler = reason => {
+      console.log('disconncted');
+      if (reason === 'io server disconnect') {
+        console.log('server disconnected');
+        deleteToken();
+        history.push(ROUTE_HOME);
+        authorizeAndSetUser();
+      }
+    };
+
+    const newMoveHandler = newMoveObj => {
+      setMoves(oldMoves => [...oldMoves, newMoveObj.move]);
+      setGameInfo(oldGameInfo => ({
+        ...oldGameInfo,
+        status: newMoveObj.status,
+      }));
+    };
+
+    socket.on('disconnect', disconnectHandler);
+    socket.on('newmove', newMoveHandler);
+
     return () => {
+      console.log('leaving game');
+      socket.emit('leave');
+      socket.close();
       setGameSocket({
         validGame: null,
         socket: null
       });
     };
-  }, [gameID]);
-
-  const history = useHistory();
-
-  useEffect(() => {
-    console.log('chat effect');
-    if (chatSocket.validChat === true) {
-      console.log('true');
-      const disconnectHandler = reason => {
-        console.log('disconncted');
-        if (reason === 'io server disconnect') {
-          console.log('server disconnected');
-          deleteToken();
-          history.push(ROUTE_HOME);
-          authorizeAndSetUser();
-        }
-      };
-
-      const newMessageHandler = newMessage => {
-        setMessages(oldMessages => [...oldMessages, newMessage]);
-      };
-
-      chatSocket.socket.on('disconnect', disconnectHandler);
-      chatSocket.socket.on('newmsg', newMessageHandler);
-      return () => {
-        console.log('leaving chat');
-        chatSocket.socket.emit('leave');
-        chatSocket.socket.close();
-      };
-    }
-  }, [chatSocket, history, authorizeAndSetUser]);
-
-  useEffect(() => {
-    console.log('game effect');
-    if (gameSocket.validGame === true) {
-      console.log('true');
-      const disconnectHandler = reason => {
-        console.log('disconncted');
-        if (reason === 'io server disconnect') {
-          console.log('server disconnected');
-          deleteToken();
-          history.push(ROUTE_HOME);
-          authorizeAndSetUser();
-        }
-      };
-
-      const newMoveHandler = newMoveObj => {
-        setMoves(oldMoves => [...oldMoves, newMoveObj.move]);
-        setGameInfo(oldGameInfo => ({
-          ...oldGameInfo,
-          status: newMoveObj.status,
-        }));
-      };
-
-      gameSocket.socket.on('disconnect', disconnectHandler);
-      gameSocket.socket.on('newmove', newMoveHandler);
-      return () => {
-        console.log('leaving game');
-        gameSocket.socket.emit('leave');
-        gameSocket.socket.close();
-      };
-    }
-  }, [gameSocket, history, authorizeAndSetUser]);
-
-  useEffect(() => {
-    console.log('moves updated', moves);
-  }, [moves]);
+  }, [gameID, authorizeAndSetUser, history]);
 
   const sendMessage = chatSocket.validChat ? (content => {
     console.log('send message', content);
