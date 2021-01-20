@@ -163,7 +163,7 @@ function GamePage({ authorizeAndSetUser }) {
         <Grid container spacing={2}>
           <Grid item xs>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={5}>
             <Board moves={moves} sendMove={sendMove} valid={gameSocket.validGame} />
           </Grid>
           <Grid item xs style={{minWidth: '0%'}}>
