@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { Box, Paper, Typography, Grid, Card, CardContent, Avatar, IconButton, makeStyles } from '@material-ui/core';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
 import { UserProfileLink } from './UserProfileLink';
 import { GAME_STATUS_ONGOING, GAME_STATUS_PLAYER1_WINS, GAME_STATUS_PLAYER2_WINS, GAME_STATUS_TIE } from '../constants';
@@ -213,7 +213,7 @@ function Board({ moves, sendMove, valid }) {
                         }
                       }
                     >
-                      <ArrowBackIosIcon />
+                      <NavigateBeforeIcon />
                     </IconButton>
                     <IconButton
                       disabled={viewIdx === -1}
@@ -228,7 +228,7 @@ function Board({ moves, sendMove, valid }) {
                         }
                       }
                     >
-                      <ArrowForwardIosIcon />
+                      <NavigateNextIcon />
                     </IconButton>
                   </Grid>
                 </Grid>
