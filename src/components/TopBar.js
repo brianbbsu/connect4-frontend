@@ -38,7 +38,7 @@ function TopBar({ authorizeAndSetUser }) {
   };
 
   function handleListKeyDown(event) {
-    if(event.key === 'Tab') {
+    if(event.key === 'Tab' || event.key === 'Escape') {
       event.preventDefault();
       setOpen(false);
     }
