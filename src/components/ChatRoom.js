@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { Box, Paper, Typography, TextField, Button, List, ListItem } from '@material-ui/core';
+import { Box, Paper, Typography, TextField, Button, List, ListItem, Grid } from '@material-ui/core';
 
 import { UserProfileLink } from './UserProfileLink';
 import { UserContext, GameContext } from '../contexts';
@@ -59,15 +59,23 @@ function ChatRoom({ messages, sendMessage, valid }) {
           onChange={e => setContent(e.target.value)} 
           disabled={!authorized} 
           id="content" 
-          label="Content" 
+          label="Content"
+          onKeyPress={(e)=>{
+            if(e.key === "Enter")
+              handleSend();
+          }}
         />
-        <Button 
-          variant="contained" 
-          disabled={!authorized}
-          onClick={handleSend}
-        >
-          Send
-        </Button>
+        <Grid container direction="row" alignItems="center" justify="flex-end">
+          <Grid item xs={3}>
+            <Button 
+              variant="contained" 
+              disabled={!authorized}
+              onClick={handleSend}
+            >
+              Send
+            </Button>
+          </Grid>
+        </Grid>
       </Box>
     </Box>
   );
