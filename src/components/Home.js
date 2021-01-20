@@ -1,4 +1,4 @@
-import { Fragment, useContext } from 'react';
+import { useContext } from 'react';
 import { Box, Paper, Typography, Container } from '@material-ui/core';
 
 import { UserContext } from '../contexts';
