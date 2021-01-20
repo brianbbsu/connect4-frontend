@@ -42,7 +42,7 @@ function ChatRoom({ messages, sendMessage, valid }) {
           Chat Room
         </Typography>
       </Box>
-      <Box flexGrow={1} flexBasis={0} minHeight={0} component={Paper} variant="outlined" overflow="auto">
+      <Box flexGrow={1} flexBasis={0} minHeight={0} component={Paper} variant="outlined" overflow="auto" maxWidt="25%">
         <List>
           { messages.map((message, idx) => (
             <ListItem key={idx}>
