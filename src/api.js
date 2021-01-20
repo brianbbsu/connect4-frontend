@@ -89,6 +89,20 @@ async function requestGameList() {
   return null;
 }
 
+async function requestUserGameList(username) {
+  const { data: { games }, status } = await instance.get(
+    '/games', {
+      params: {
+        username
+      }
+    });
+
+  if (status === 200) {
+    return games;
+  }
+  return null;
+}
+
 async function requestUserList() {
   const { data: { users }, status } = await instance.get(
     '/users', 
@@ -111,4 +125,4 @@ async function requestUserInfo(username) {
   return null;
 }
 
-export { getToken, setToken, deleteToken, requestSignUp, requestSignIn, requestCheckLogin, requestSignOut, requestGameList, requestUserList, requestUserInfo };
+export { getToken, setToken, deleteToken, requestSignUp, requestSignIn, requestCheckLogin, requestSignOut, requestGameList, requestUserGameList, requestUserList, requestUserInfo };

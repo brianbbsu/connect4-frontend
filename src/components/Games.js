@@ -10,6 +10,49 @@ import { make_game_page_route } from '../constants';
 const ALL_GAMES = 'all';
 const MY_GAMES = 'my';
 
+export const GameTable = function ({games}) {
+  const history = useHistory();
+  const makeHandleClick = id => {
+    return () => {
+      history.push(make_game_page_route(id));
+    };
+  };
+  return (
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>ID</TableCell>
+            <TableCell>Player 1</TableCell>
+            <TableCell>Player 2</TableCell>
+            <TableCell>Game Status</TableCell>
+            <TableCell>Game Start Time</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {
+            games.map(
+              game => (
+                <TableRow
+                  key={game.id} 
+                  onClick={makeHandleClick(game.id)}
+                  hover
+                >
+                  <TableCell align="right">{game.id}</TableCell>
+                  <TableCell><UserProfileLink username={game.player1} /></TableCell>
+                  <TableCell><UserProfileLink username={game.player2} /></TableCell>
+                  <TableCell>{game.status}</TableCell>
+                  <TableCell>{game.createdAt}</TableCell>
+                </TableRow>
+              )
+            )
+          }
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+} 
+
 function Games() {
   const user = useContext(UserContext);
 
@@ -33,49 +76,6 @@ function Games() {
 
   const viewGames = viewMode === ALL_GAMES ? games : games.filter(game => game.player1 === user.username || game.player2 === user.username);
 
-  const history = useHistory();
-
-  const makeHandleClick = id => {
-    return () => {
-      history.push(make_game_page_route(id));
-    };
-  };
-
-  const gameTable = (
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Player 1</TableCell>
-            <TableCell>Player 2</TableCell>
-            <TableCell>Game Status</TableCell>
-            <TableCell>Game Start Time</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {
-            viewGames.map(
-              game => (
-                <TableRow
-                  key={game.id} 
-                  onClick={makeHandleClick(game.id)}
-                  hover
-                >
-                  <TableCell align="right">{game.id}</TableCell>
-                  <TableCell><UserProfileLink username={game.player1} /></TableCell>
-                  <TableCell><UserProfileLink username={game.player2} /></TableCell>
-                  <TableCell>{game.status}</TableCell>
-                  <TableCell>{game.createdAt}</TableCell>
-                </TableRow>
-              )
-            )
-          }
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
-
   return (
     <Box m={2} component={Paper}>
       <Tabs value={viewMode} onChange={handleChange}>
@@ -83,7 +83,7 @@ function Games() {
         <Tab label="My Games" value={MY_GAMES} disabled={user.authorized !== true} /> 
       </Tabs>
       <Box p={2}>
-        {gameTable}
+        <GameTable games={viewGames}/>
       </Box>
     </Box>
   );

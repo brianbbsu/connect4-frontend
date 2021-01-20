@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Container } from '@material-ui/core';
 import { Switch, Route } from 'react-router-dom';
 
 import { loadingUser, unauthorizedUser, UserContext } from './contexts';
@@ -40,31 +39,29 @@ function App() {
   return (
     <UserContext.Provider value={nowUser}>
       <TopBar authorizeAndSetUser={authorizeAndSetUser} />
-      <Container maxWidth="xl">
-        <Switch>
-          <Route exact path={ROUTE_HOME}>
-            <Home />
-          </Route>
-          <Route exact path={ROUTE_GAMES}>
-            <Games />
-          </Route>
-          <Route exact path={ROUTE_USERS}>
-            <Users />
-          </Route>
-          <Route exact path={ROUTE_SIGN_IN}>
-            <SignIn authorizeAndSetUser={authorizeAndSetUser} />
-          </Route>
-          <Route exact path={ROUTE_SIGN_UP}>
-            <SignUp authorizeAndSetUser={authorizeAndSetUser} />
-          </Route>
-          <Route path={ROUTE_USER_PROFILE}>
-            <UserProfile />
-          </Route>
-          <Route path={ROUTE_GAME_PAGE}>
-            <GamePage authorizeAndSetUser={authorizeAndSetUser} />
-          </Route>
-        </Switch>
-      </Container>
+      <Switch>
+        <Route exact path={ROUTE_HOME}>
+          <Home />
+        </Route>
+        <Route exact path={ROUTE_GAMES}>
+          <Games />
+        </Route>
+        <Route exact path={ROUTE_USERS}>
+          <Users />
+        </Route>
+        <Route exact path={ROUTE_SIGN_IN}>
+          <SignIn authorizeAndSetUser={authorizeAndSetUser} />
+        </Route>
+        <Route exact path={ROUTE_SIGN_UP}>
+          <SignUp authorizeAndSetUser={authorizeAndSetUser} />
+        </Route>
+        <Route path={ROUTE_USER_PROFILE}>
+          <UserProfile />
+        </Route>
+        <Route path={ROUTE_GAME_PAGE}>
+          <GamePage authorizeAndSetUser={authorizeAndSetUser} />
+        </Route>
+      </Switch>
     </UserContext.Provider>
   );
 }
