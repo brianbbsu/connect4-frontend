@@ -10,6 +10,7 @@ const make_game_page_route = gameID => `/games/${gameID}`;
 
 const SOCKET_CHAT = `${process.env.REACT_APP_API_URL}/chats`
 const SOCKET_GAME = `${process.env.REACT_APP_API_URL}/games`
+const SOCKET_PAIR = `${process.env.REACT_APP_API_URL}/pair`
 
 const GAME_STATUS_ONGOING = 'ongoing';
 const GAME_STATUS_PLAYER1_WINS = 'player1_wins';
@@ -20,6 +21,6 @@ export {
   ROUTE_HOME, ROUTE_GAMES, ROUTE_USERS, ROUTE_SIGN_IN, ROUTE_SIGN_UP, 
   ROUTE_USER_PROFILE, make_user_profile_route, 
   ROUTE_GAME_PAGE, make_game_page_route,
-  SOCKET_CHAT, SOCKET_GAME, 
+  SOCKET_CHAT, SOCKET_GAME, SOCKET_PAIR,
   GAME_STATUS_ONGOING, GAME_STATUS_PLAYER1_WINS, GAME_STATUS_PLAYER2_WINS, GAME_STATUS_TIE
 };

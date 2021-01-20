@@ -41,7 +41,7 @@ function App() {
       <TopBar authorizeAndSetUser={authorizeAndSetUser} />
       <Switch>
         <Route exact path={ROUTE_HOME}>
-          <Home />
+          <Home authorizeAndSetUser={authorizeAndSetUser} />
         </Route>
         <Route exact path={ROUTE_GAMES}>
           <Games />
