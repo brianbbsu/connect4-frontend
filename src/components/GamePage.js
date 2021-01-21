@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { io } from 'socket.io-client';
-import { Box, Grid } from '@material-ui/core';
+import { Box, Container, Grid, Paper, Typography } from '@material-ui/core';
 
 import { ChatRoom } from './ChatRoom';
 import { Board } from './Board';
+import { GameStatus } from "./GameStatus";
 import { getToken, deleteToken } from '../api';
 import { unknownGameInfo, GameInfoContext } from '../contexts';
 import { ROUTE_HOME, SOCKET_CHAT, SOCKET_GAME } from '../constants';
@@ -159,18 +160,25 @@ function GamePage({ authorizeAndSetUser }) {
 
   return (
     <GameInfoContext.Provider value={gameInfo}>
+      <Container maxWidth="lg">
       <Box p={2} m={2}>
         <Grid container spacing={2}>
-          <Grid item xs>
-          </Grid>
-          <Grid item xs={5}>
+          <Grid item xs={8}>
             <Board moves={moves} sendMove={sendMove} valid={gameSocket.validGame} />
           </Grid>
-          <Grid item xs style={{minWidth: '0%'}}>
-            <ChatRoom messages={messages} sendMessage={sendMessage} valid={chatSocket.validChat} />
+          <Grid item xs={4}>
+            <Box height={1} display="flex" flexDirection="column">
+              <Box flexGrow={0}>
+                <GameStatus/>
+              </Box>
+              <Box mt={2} flexGrow={1} flexBasis={0} minHeight={0} minWidth="0%">
+                <ChatRoom messages={messages} sendMessage={sendMessage} valid={chatSocket.validChat} />
+              </Box>
+            </Box>
           </Grid>
         </Grid>
       </Box>
+      </Container>
     </GameInfoContext.Provider>
   );
 }

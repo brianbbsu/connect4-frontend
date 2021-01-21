@@ -1,12 +1,28 @@
 import { Fragment, useContext, useState, useRef, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { Box, AppBar, Toolbar, Button, ButtonGroup, Popper, Grow, Paper, ClickAwayListener, MenuList, MenuItem } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { Box, AppBar, Toolbar, Button, ButtonGroup, Popper, Grow, Paper, ClickAwayListener, MenuList, MenuItem, Typography } from '@material-ui/core';
 
 import { UserContext } from '../contexts';
 import { ROUTE_HOME, ROUTE_GAMES, ROUTE_USERS, ROUTE_SIGN_IN, ROUTE_SIGN_UP, make_user_profile_route } from '../constants';
 import { deleteToken, requestSignOut } from '../api';
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& .MuiButton-root": {
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
+    },
+  },
+  siteName: {
+    fontWeight: 500,
+    marginRight: theme.spacing(2),
+    cursor: "pointer"
+  }
+}));
+
 function TopBar({ authorizeAndSetUser }) {
+  const classes = useStyles();
   const user = useContext(UserContext);
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
@@ -54,9 +70,12 @@ function TopBar({ authorizeAndSetUser }) {
   }, [open]);
   return (
     <AppBar position="sticky">
-      <Toolbar>
+      <Toolbar className={classes.root}>
         { user.authorized !== null && (
           <Fragment>
+            <Typography variant="h5" className={classes.siteName} onClick={() => history.push(ROUTE_HOME)}>
+              Connect 4
+            </Typography>
             <Box display="flex" flexGrow={1}>
               <ButtonGroup variant="text" color="inherit">
                 <Button color="inherit" component={Link} to={ROUTE_HOME}>Home</Button>
@@ -84,6 +103,7 @@ function TopBar({ authorizeAndSetUser }) {
                         <ClickAwayListener onClickAway={handleClose}>
                           <MenuList autoFocusItem={open} onKeyDown={handleListKeyDown}>
                             <MenuItem 
+                            onClick={handleClose}
                             style={{textTransform: 'none'}} 
                             component={Link}
                             to={make_user_profile_route(user.username)}

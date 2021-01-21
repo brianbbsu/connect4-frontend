@@ -4,6 +4,8 @@ import { Box, Paper, Typography, Container } from '@material-ui/core';
 import { UserContext } from '../contexts';
 import { Play } from './Play';
 
+
+
 function Home({ authorizeAndSetUser }) {
   const user = useContext(UserContext);
   return (
@@ -13,19 +15,19 @@ function Home({ authorizeAndSetUser }) {
           user.authorized ? (
             <Box display="flex" flexDirection="column">
               <Box>
-                <Typography variant="h1">Welcome, {user.username}.</Typography>
+                <Typography variant="h3">Hi, {user.username}.</Typography>
                 <Typography>
-                  This is a online connect 4 website.
+                  This is an online Connect 4 game website.
                 </Typography>
               </Box>
-              <Box m={2} width={0.5} alignSelf="center">
+              <Box m={3} width={0.5} alignSelf="center">
                 <Play authorizeAndSetUser={authorizeAndSetUser} />
               </Box>
             </Box>
           ) : (
             <Box display="flex" flexDirection="column">
               <Box>
-                <Typography variant="h1">Home</Typography>
+                <Typography variant="h3">Home</Typography>
                 <Typography>
                   This is a online connect 4 website.
                 </Typography>

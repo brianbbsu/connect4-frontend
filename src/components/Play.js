@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { Card, CardHeader, CardContent, Button, Grid } from '@material-ui/core';
+import { Fragment, useEffect, useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { Card, CardHeader, CardContent, Button, Grid, Typography, LinearProgress, Dialog, DialogActions, DialogContent, DialogContentText } from '@material-ui/core';
 import { io } from 'socket.io-client';
 import { useHistory } from 'react-router-dom';
 import { getToken, deleteToken } from '../api';
@@ -13,8 +14,24 @@ const QUEUE_AI = 'queue ai';
 const ERROR_LOGIN_FIRST = 'Login first.';
 const ERROR_ALREADY_WAITING = 'Already waiting.';
 
+const useStyles = makeStyles((theme) => ({
+  matchButton: {
+    padding: theme.spacing(1, 0),
+    marginTop: theme.spacing(1),
+  },
+  linearProgress: {
+    marginTop: theme.spacing(1),
+    paddingTop: theme.spacing(1)
+  },
+  cancelButton: {
+    padding: theme.spacing(0, 1),
+  }
+}));
+
 function Play({ authorizeAndSetUser }) {
+  const classes = useStyles();
   const [queueStatus, setQueueStatus] = useState(NOT_QUEUED);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const history = useHistory();
 
@@ -33,6 +50,7 @@ function Play({ authorizeAndSetUser }) {
           authorizeAndSetUser();
         }
         if (err === ERROR_ALREADY_WAITING) {
+          setDialogOpen(true);
           setQueueStatus(NOT_QUEUED);
         }
       });
@@ -61,32 +79,75 @@ function Play({ authorizeAndSetUser }) {
     }
   }, [queueStatus, authorizeAndSetUser, history]);
 
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  }
+
+  const MatchButton = ({text, targetQueueStatus}) => (
+    <Button 
+      variant="contained"
+      disabled={queueStatus !== NOT_QUEUED}
+      onClick={() => setQueueStatus(targetQueueStatus)}
+      className={classes.matchButton}
+      fullWidth
+    >
+      {text}
+    </Button>
+  );
+
+  const DoubleWaitDialog = () => (
+    <Dialog
+      open={dialogOpen}
+      onClose={handleDialogClose}
+    >
+      <DialogContent>
+        <DialogContentText>
+          You are already waiting in line using the same account.
+          </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleDialogClose} color="primary" autoFocus>
+          Ok
+        </Button>
+      </DialogActions>
+    </Dialog>
+  )
+
   return (
-    <Card>
-      <CardHeader title="Play Now" />
-      <CardContent>
-        <Grid container spacing={2} justify="space-between">
-          <Grid item xs={6}>
-            <Button 
-              variant="contained"
-              disabled={queueStatus !== NOT_QUEUED}
-              onClick={() => setQueueStatus(QUEUE_PLAYER)}
-            >
-              Match with player
-            </Button>
+    <Fragment>
+      <Card>
+        <CardHeader title="Play Now" titleTypographyProps={{variant: "h4"}} />
+        <CardContent>
+          { queueStatus === NOT_QUEUED ? (
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <MatchButton text="Match with player" targetQueueStatus={QUEUE_PLAYER}/>
+              </Grid>
+              <Grid item xs={6}>
+                <MatchButton text="Match with AI" targetQueueStatus={QUEUE_AI}/>
+              </Grid>
+            </Grid>
+          ) : (
+          <Grid container alignItems="center" justify="space-between">
+            <Grid item>
+              <Typography variant="overline">
+                Waiting for { queueStatus === QUEUE_PLAYER ? "another player..." : "AI..." }
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Button variant="text" size="small" className={classes.cancelButton} onClick={() => setQueueStatus(NOT_QUEUED)}>
+                Cancel
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <LinearProgress className={classes.linearProgress}/>
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <Button 
-              variant="contained"
-              disabled={queueStatus !== NOT_QUEUED}
-              onClick={() => setQueueStatus(QUEUE_AI)}
-            >
-              Match with AI
-            </Button>
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
+          )}
+        </CardContent>
+      </Card>
+      <DoubleWaitDialog/>
+    </Fragment>
   );
 }
 
