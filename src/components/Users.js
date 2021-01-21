@@ -37,7 +37,6 @@ function Users() {
                 <TableRow 
                   key={userItem.username} 
                   onClick={() => {
-                    //console.log(userItem);
                     history.push(make_user_profile_route(userItem.username))
                   }}
                   hover

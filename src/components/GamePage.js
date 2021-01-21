@@ -31,16 +31,13 @@ function GamePage({ authorizeAndSetUser }) {
   const history = useHistory();
 
   useEffect(() => {
-    console.log('creating chat socket');
     const socket = io(SOCKET_CHAT, {
       auth: {
         token: getToken(),
       }
     });
     socket.on('connect', () => {
-      console.log('chat connected');
       socket.emit('join', chatID, pastMessages => {
-        console.log('got past messages', pastMessages);
         if (pastMessages === null) {
           setChatSocket({
             validChat: false,
@@ -57,9 +54,7 @@ function GamePage({ authorizeAndSetUser }) {
     });
 
     const disconnectHandler = reason => {
-      console.log('disconncted');
       if (reason === 'io server disconnect') {
-        console.log('server disconnected');
         deleteToken();
         history.push(ROUTE_HOME);
         authorizeAndSetUser();
@@ -74,7 +69,6 @@ function GamePage({ authorizeAndSetUser }) {
     socket.on('newmsg', newMessageHandler);
 
     return () => {
-      console.log('leaving chat');
       socket.emit('leave');
       socket.close();
       setChatSocket({
@@ -85,16 +79,13 @@ function GamePage({ authorizeAndSetUser }) {
   }, [chatID, authorizeAndSetUser, history]);
 
   useEffect(() => {
-    console.log('creating game socket');
     const socket = io(SOCKET_GAME, {
       auth: {
         token: getToken(),
       }
     });
     socket.on('connect', () => {
-      console.log('game connected');
       socket.emit('join', gameID, gameObj => {
-        console.log('got game object', gameObj);
         if (gameObj === null) {
           setGameSocket({
             validGame: false,
@@ -117,9 +108,7 @@ function GamePage({ authorizeAndSetUser }) {
     });
     
     const disconnectHandler = reason => {
-      console.log('disconncted');
       if (reason === 'io server disconnect') {
-        console.log('server disconnected');
         deleteToken();
         history.push(ROUTE_HOME);
         authorizeAndSetUser();
@@ -138,7 +127,6 @@ function GamePage({ authorizeAndSetUser }) {
     socket.on('newmove', newMoveHandler);
 
     return () => {
-      console.log('leaving game');
       socket.emit('leave');
       socket.close();
       setGameSocket({
@@ -149,12 +137,10 @@ function GamePage({ authorizeAndSetUser }) {
   }, [gameID, authorizeAndSetUser, history]);
 
   const sendMessage = chatSocket.validChat ? (content => {
-    console.log('send message', content);
     chatSocket.socket.emit('sendmsg', content);
   }) : (() => {});
 
   const sendMove = gameSocket.validGame ? (move => {
-    console.log('send move', move);
     gameSocket.socket.emit('makemove', move);
   }) : (() => {});
 

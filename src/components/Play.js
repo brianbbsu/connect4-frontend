@@ -57,9 +57,7 @@ function Play({ authorizeAndSetUser }) {
       });
 
       const disconnectHandler = reason => {
-        console.log('disconncted');
         if (reason === 'io server disconnect') {
-          console.log('server disconnected');
           deleteToken();
           history.push(ROUTE_HOME);
           authorizeAndSetUser();
