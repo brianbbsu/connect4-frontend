@@ -108,7 +108,7 @@ function TopBar({ authorizeAndSetUser }) {
                             component={Link}
                             to={make_user_profile_route(user.username)}
                             >
-                            profile
+                            Profile
                             </MenuItem>
                             <MenuItem onClick={signOut}>Sign out</MenuItem>
                           </MenuList>
