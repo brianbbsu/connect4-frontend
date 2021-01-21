@@ -47,7 +47,7 @@ function SignUp({ authorizeAndSetUser }) {
       password: null,
       confirmPassword: null
     };
-    const usernameRegex = /^[a-zA-Z0-9-_]{1,32}$/;
+    const usernameRegex = /^[a-zA-Z0-9-_]{1,16}$/;
     const passwordMinLength = 6;
     if (username === '') {
       newErrorMessage.username = 'Username must not be empty.';
@@ -109,7 +109,7 @@ function SignUp({ authorizeAndSetUser }) {
             label="Username"
             name="username"
             error={errorMessages.username}
-            helperText={errorMessages.username || 'Username can only contains characters in [a-zA-Z0-9_-].'}
+            helperText={errorMessages.username || 'Username should match regex /^[a-zA-Z0-9-_]{1,16}$/.'}
             value={username}
             onChange={handlerFactory(setUsername)}
             margin="dense"
