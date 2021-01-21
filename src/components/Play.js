@@ -4,6 +4,7 @@ import { Card, CardHeader, CardContent, Button, Grid, Typography, LinearProgress
 import { io } from 'socket.io-client';
 import { useHistory } from 'react-router-dom';
 import { getToken, deleteToken } from '../api';
+import { SimpleDialog } from "./SimpleDialog";
 
 import { ROUTE_HOME, make_game_page_route, SOCKET_PAIR } from '../constants';
 
@@ -79,10 +80,6 @@ function Play({ authorizeAndSetUser }) {
     }
   }, [queueStatus, authorizeAndSetUser, history]);
 
-  const handleDialogClose = () => {
-    setDialogOpen(false);
-  }
-
   const MatchButton = ({text, targetQueueStatus}) => (
     <Button 
       variant="contained"
@@ -94,24 +91,6 @@ function Play({ authorizeAndSetUser }) {
       {text}
     </Button>
   );
-
-  const DoubleWaitDialog = () => (
-    <Dialog
-      open={dialogOpen}
-      onClose={handleDialogClose}
-    >
-      <DialogContent>
-        <DialogContentText>
-          You are already waiting in line using the same account.
-          </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleDialogClose} color="primary" autoFocus>
-          Ok
-        </Button>
-      </DialogActions>
-    </Dialog>
-  )
 
   return (
     <Fragment>
@@ -146,7 +125,11 @@ function Play({ authorizeAndSetUser }) {
           )}
         </CardContent>
       </Card>
-      <DoubleWaitDialog/>
+      <SimpleDialog
+        content="You are already waiting in line using the same account."
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+      />
     </Fragment>
   );
 }
