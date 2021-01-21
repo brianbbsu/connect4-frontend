@@ -36,6 +36,18 @@ function Home({ authorizeAndSetUser }) {
           ) 
         ) }
       </Box>
+      <Box p={2} m={2} component={Paper}>
+        <Box>
+          <Typography variant="h3">Rule</Typography>
+          <Typography>
+            The two players alternate turns dropping one of their discs 
+            at a time into an unfilled column. Any player who achieves a 
+            horizontal, vertical, or diagonal four first win. If the board
+            is filled up and there is no connected four, and then the game 
+            will end in a draw.
+          </Typography>
+        </Box>
+      </Box>
     </Container>
   );
 }

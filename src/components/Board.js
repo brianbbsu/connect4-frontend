@@ -131,7 +131,7 @@ function Board({ moves, sendMove, valid }) {
                     />
                     {e !== 0 && (
                       <img
-                        src={e * e === 1 ? image_red : image_yellow}
+                        src={e * e === 1 ? image_yellow : image_red}
                         alt="missing piece"
                         style={{
                           position: 'absolute',
@@ -218,7 +218,7 @@ function Board({ moves, sendMove, valid }) {
           <CardContent>
             <Grid container alignItems="center" justify="flex-start" spacing={1}>
               <Grid item>
-                <Avatar src={image_red} />
+                <Avatar src={image_yellow} />
               </Grid>
               <Grid item>
                 <Typography variant="caption">
@@ -248,7 +248,7 @@ function Board({ moves, sendMove, valid }) {
                 </Typography>
               </Grid>
               <Grid item>
-                <Avatar src={image_yellow} />
+                <Avatar src={image_red} />
               </Grid>
             </Grid>
           </CardContent>
